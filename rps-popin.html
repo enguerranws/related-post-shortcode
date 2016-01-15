@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Related Post Shortcode</title>
+    <style media="screen">
+      body {
+        font-family: sans-serif;
+        font-size: 14px;
+        padding: 0 20px;
+      }
+      #rps-filter {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 3px;
+        -webkit-appearance: none;
+        border: 1px solid #eee;
+        min-width: 50%;
+      }
+      #rps-list {
+        max-height: 200px;
+        overflow: auto;
+        list-style-type: none;
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 3px;
+      }
+      #rps-list li {
+        line-height: 1.4;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      #rps-list li:nth-of-type(2n) {
+        background: #f5f5f5;
+      }
+      #rps-list li:hover {
+        background: #0073aa !important;
+        color: #fff;
+      }
+      .rps-or {
+        text-transform: uppercase;
+        text-align: center;
+        color: #ccc;
+        display: block;
+        font-weight: bold;
+      }
+      #rps-submit {
+        margin: 10px auto;
+        display: block;
+        -webkit-appearance: none;
+        background: #0073aa;
+        color: #fff;
+        border: 0;
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+
+    <p>
+      <span class="rps-filter-mention"></span><input type="text" id="rps-filter" placeholder="Tapez quelques lettres pour filter les résultats"/>
+    </p>
+    <p>
+      <span class="rps-list-mention"></span>
+    </p>
+    <ul id="rps-list">
+
+    </ul>
+    <span class="rps-or"></span>
+      <input type="button" id="rps-submit" value="Choisir au hasard dans la même catégorie" />
+
+
+    <script>
+
+        var args = top.tinymce.activeEditor.windowManager.getParams(),
+            $ = args.jquery,
+            context = document.getElementsByTagName("body")[0],
+            ajaxurl = args.ajaxurl,
+            trans = args.trans;
+
+
+        $(document).ready(function () {
+          var posts = getPostIds();
+          updatePostsList(posts);
+          $('.rps-list-mention', context).html(trans.popupList);
+          $('.rps-filter-mention', context).html(trans.popupFilter);
+          $('#rps-submit', context).val(trans.popupBtn);
+          $('.rps-or', context).html(trans.popupOr);
+          $("#rps-filter", context).on('keyup', function (){
+            var self = this,
+            filtered = posts.filter(function (el) {
+
+              return el.text.indexOf(self.value) > -1;
+            });
+
+            if(self.value.length > 2){
+              updatePostsList(filtered);
+            }
+
+          });
+          $("#rps-submit", context).on('click', function(e) {
+            e.preventDefault();
+            top.tinymce.activeEditor.execCommand('mceInsertContent', false, '[related-post]');
+            top.tinymce.activeEditor.windowManager.close();
+          });
+
+        });
+
+        function updatePostsList (posts){
+          var options = "";
+          for (var i = 0; i < posts.length; i++) {
+            options += '<li data-value="'+posts[i].value+'">'+posts[i].text+'</li>';
+          }
+          $("#rps-list", context).html(options).find('li').on('click', function () {
+
+            var self = this,
+                content = '[related-post id="' +$(self).attr('data-value')+'"]';
+
+
+            top.tinymce.activeEditor.execCommand('mceInsertContent', false, content);
+            top.tinymce.activeEditor.windowManager.close();
+          });
+        }
+        function getPostIds() {
+            var data = {'action': 'related_post_shortcode_getPostsIds'};
+            var q = $.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: data,
+                dataType: 'json',
+                async: false
+            });
+
+            var values = q.responseJSON;
+
+            return values;
+        }
+        function getPluginUrl() {
+            var data = {'action': 'related_post_shortcode_getPluginUrl'};
+            var q = $.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: data,
+                dataType: 'json',
+                async: false
+            });
+
+            var values = q.responseText;
+
+            return values;
+
+        }
+        function getPluginTrans() {
+            var data = {'action': 'related_post_shortcode_getTransFields'};
+            var q = $.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: data,
+                dataType: 'json',
+                async: false
+            });
+
+            var values = q.responseJSON;
+
+            return values;
+
+        }
+    </script>
+</body>
+</html>
