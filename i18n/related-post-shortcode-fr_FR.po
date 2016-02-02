@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Related Post Shortcode v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2016-01-12 16:16:47+0000\n"
+"PO-Revision-Date: 2016-02-01 17:19:17+0000\n"
 "Last-Translator: admin <enguerrandeep@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,48 +20,68 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: related-post-shortcode.php:94
+#: related-post-shortcode.php:110
 #@ related-post-shortcode
 msgid "You may also like"
 msgstr "Voici un article que vous pourriez aimer :"
 
-#: related-post-shortcode.php:109
+#: related-post-shortcode.php:136
 #@ related-post-shortcode
 msgid "Which post do you want to insert?"
 msgstr "Quel article voulez-vous insérer ?"
 
-#: related-post-shortcode.php:110
+#: related-post-shortcode.php:137
 #@ related-post-shortcode
 msgid "Click on a post to select it or<br>click the button below the select it randomly."
 msgstr "Cliquez sur un article pour le sélectionner ou<br>cliquez sur le bouton pour ne choisir un au hasard."
 
-#: related-post-shortcode.php:111
+#: related-post-shortcode.php:138
 #@ related-post-shortcode
 msgid "Post filter: "
 msgstr "Filtrer les articles : "
 
-#: related-post-shortcode.php:113
+#: related-post-shortcode.php:140
 #@ related-post-shortcode
 msgid "List of all posts: "
 msgstr "Liste de tous les articles : "
 
-#: related-post-shortcode.php:115
+#: related-post-shortcode.php:142
 #@ related-post-shortcode
 msgid "Choose a post randomly in the same category"
 msgstr "Choisir un article au hasard dans la même catégorie"
 
-#: related-post-shortcode.php:112
+#: related-post-shortcode.php:139
 #@ related-post-shortcode
 msgid "Start typing to filter the results"
 msgstr "Tapez quelques lettres pour filter les résultats."
 
-#: related-post-shortcode.php:108
+#: related-post-shortcode.php:135
 #@ related-post-shortcode
 msgid "Insert related article"
 msgstr "Insérer article suggéré"
 
-#: related-post-shortcode.php:114
+#: related-post-shortcode.php:141
 #@ related-post-shortcode
 msgid "Or"
 msgstr "Ou"
+
+#: options.php:12
+#@ related-post-shortcode
+msgid "Settings :"
+msgstr "Réglages"
+
+#: options.php:19
+#@ related-post-shortcode
+msgid "Display an excerpt:"
+msgstr "Afficher l'extrait d'article :"
+
+#: options.php:23
+#@ related-post-shortcode
+msgid "Use a custom title of section:"
+msgstr "Utiliser un titre de section personnalisé :"
+
+#: options.php:23
+#@ related-post-shortcode
+msgid "Default title is \"You may also like\""
+msgstr "Par défaut : \\\"Voici un article que vous pourriez aimer :\\\" "
 

@@ -93,13 +93,17 @@
           $('.rps-or', context).html(trans.popupOr);
           $("#rps-filter", context).on('keyup', function (){
             var self = this,
+                query = self.value.toLowerCase(),
             filtered = posts.filter(function (el) {
 
-              return el.text.indexOf(self.value) > -1;
+              return el.text.toLowerCase().indexOf(query) > -1;
             });
 
             if(self.value.length > 2){
               updatePostsList(filtered);
+            }
+            else if (self.value.length < 2){
+              updatePostsList(posts);
             }
 
           });

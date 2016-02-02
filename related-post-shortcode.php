@@ -17,6 +17,8 @@
 add_action('admin_init', 'related_post_shortcode_init');
 add_action( 'admin_head', 'related_post_shortcode_button' );
 add_shortcode('related-post', 'related_post_shortcode');
+add_action( 'admin_init', 'related_post_shortcode_register_options' );
+add_action('admin_menu', 'related_post_shortcode_options_page');
 add_action( 'wp_ajax_related_post_shortcode_getPostsIds', 'related_post_shortcode_getPostsIds' );
 add_action( 'wp_ajax_nopriv_related_post_shortcode_getPostsIds', 'related_post_shortcode_getPostsIds' );
 add_action( 'wp_ajax_related_post_shortcode_getPluginUrl', 'related_post_shortcode_getPluginUrl' );
@@ -51,11 +53,33 @@ function related_post_shortcode_register_button( $buttons ) {
     return $buttons;
 }
 
+/* -----------------------------------------------------------------------------
+ *  Plugin Page options
+  ---------------------------------------------------------------------------- */
+
+
+function related_post_shortcode_options_page() {
+  add_options_page('Related Post Shortcode', 'Related Post Shortcode', 'manage_options', 'related-post-shortcode', 'related_post_shortcode_options_page_render');
+  wp_enqueue_style('style', plugins_url('/styles.css', __FILE__));
+
+}
+function related_post_shortcode_options_page_render(){
+  require_once(dirname(__FILE__) . '/options.php');
+
+}
+
+function related_post_shortcode_register_options() { //register our settings
+
+  register_setting( 'related_post_shortcode-admin-settings-group', 'related_post_shortcode_display_excerpt' );
+  register_setting( 'related_post_shortcode-admin-settings-group', 'related_post_shortcode_title_custom' );
+}
+
+
 
 // related_post_shortcode
 
 function related_post_shortcode_style() {
-	wp_enqueue_style( 'related_post_shortcode_style', plugins_url('/related-post-shortcode.css', __FILE__) );
+	wp_enqueue_style( 'related_post_shortcode_style', plugins_url('/related-post-shortcode.css?v=2', __FILE__) );
 }
 
 
@@ -83,8 +107,9 @@ function related_post_shortcode( $atts, $content = null ) {
 	}
 	$post = get_post(intval($postID));
   $post_trim = preg_replace('/((\w+\W*){16}(\w+))(.*)/', '${1}', $post->post_content);
-
-	$excerpt = strip_tags($post_trim).'...';
+  $section_title = get_option('related_post_shortcode_title_custom') ? get_option('related_post_shortcode_title_custom') : __('You may also like','related-post-shortcode');
+  $excerpt = strip_tags($post_trim).'...';
+  $excerptContainer = get_option('related_post_shortcode_display_excerpt') ? '<div class="rps-excerpt">'.$excerpt.'</div>':'';
 
 
 	return '
@@ -92,9 +117,9 @@ function related_post_shortcode( $atts, $content = null ) {
 
 			<a class="rps-thumb" href="'.get_permalink($postID).'" >'.get_the_post_thumbnail($postID,'thumbnail').'</a>
 			<div class="rps-desc">
-				<span class="rps-container-title">'.__('You may also like','related-post-shortcode').'</span>
-				<a href="'.get_permalink($postID).'" class="rps-title">'.get_the_title( $postID ).'</a>
-        <div class="rps-excerpt">'.$excerpt.'</div>
+				<span class="rps-container-title">'.$section_title.'</span>
+				<a href="'.get_permalink($postID).'" class="rps-title">'.get_the_title( $postID ).'</a>'.$excerptContainer.'
+
 
 			</div>
 		</div>
