@@ -15,6 +15,7 @@
   ---------------------------------------------------------------------------- */
 
 add_action('admin_init', 'related_post_shortcode_init');
+add_action('after_setup_theme', 'related_post_shortcode_init');
 add_action( 'admin_head', 'related_post_shortcode_button' );
 add_shortcode('related-post', 'related_post_shortcode');
 add_action( 'admin_init', 'related_post_shortcode_register_options' );
