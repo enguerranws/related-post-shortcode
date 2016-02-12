@@ -6,12 +6,10 @@
         pluginUrl = getPluginUrl(),
         pluginTrans = getPluginTrans();
 
-
-
     tinymce.init({
-
         content_css : pluginUrl +"/related-post-shortcode.css"
     });
+
     tinymce.PluginManager.add( 'related_post_shortcode', function( editor, url ) {
 
 
@@ -20,8 +18,7 @@
             icon: 'mad-editor-icon',
             style: "background: url('"+pluginUrl+"/related-post-shortcode-editor-icon.png?v=2') 3px 50% no-repeat;",
             onclick: function() {
-                // Open window
-
+                    // Open Tiny MCE window
                     editor.windowManager.open( {
                       title: pluginTrans.popupTitle,
                       url: pluginUrl+'/rps-popin.html',
@@ -45,7 +42,7 @@
 
 } )();
 
-// Useful functions
+
 function getPluginUrl() {
     var data = {'action': 'related_post_shortcode_getPluginUrl'};
     var q = jQuery.ajax({
@@ -61,6 +58,7 @@ function getPluginUrl() {
     return values;
 
 }
+
 function getPluginTrans() {
     var data = {'action': 'related_post_shortcode_getTransFields'};
     var q = jQuery.ajax({
